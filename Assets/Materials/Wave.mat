@@ -40,20 +40,20 @@ Material:
     - _Prop1: 0
     - _Scale: 200
     - _SmallAmplitude: 0.29
-    - _Smoothness: 37.2
+    - _Smoothness: 50
     - _VertSpeed: 0.2
-    - _WavCSpeed: 3.79
-    - _WaveAAmplitude: 1.42
-    - _WaveAFrequency: 20
-    - _WaveASpeed: 1.93
-    - _WaveBAmplitude: 1.63
-    - _WaveBFrequency: 10
-    - _WaveBSpeed: 3.7
-    - _WaveCAmplitude: 1.95
-    - _WaveCFrequency: 20
-    - _WaveDAmplitude: 1.89
-    - _WaveDFrequency: 10
-    - _WaveDSpeed: 1.8
+    - _WavCSpeed: 2.32
+    - _WaveAAmplitude: 1.94
+    - _WaveAFrequency: 9.9
+    - _WaveASpeed: 2.59
+    - _WaveBAmplitude: 2.5
+    - _WaveBFrequency: 4.8
+    - _WaveBSpeed: 2.79
+    - _WaveCAmplitude: 2.5
+    - _WaveCFrequency: 15.7
+    - _WaveDAmplitude: 2.5
+    - _WaveDFrequency: 10.2
+    - _WaveDSpeed: 4.36
     - _WaveLineSpeed: 0.05
     - _WaveLines: 1
     - _WaveSpeed: 2.5
