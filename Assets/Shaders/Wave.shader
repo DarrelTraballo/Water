@@ -6,7 +6,7 @@ Shader "Playground/Wave"
         // Wave color from Acerola : 3A4851
         // Directional Light default color : FFF4D6
         [Header(Vertex Shader Properties)][Space]
-        _Scale ("Scale", Range(50, 200)) = 100
+        _Scale ("Scale", Range(50, 1000)) = 100
 
         [Header(X Axis)][Space][Space]
         _WaveAAmplitude ("Wave A Amplitude", Range(0.1, 2.5)) = 0.5
@@ -66,10 +66,7 @@ Shader "Playground/Wave"
 
             float4 _WaveColor;
             float _Smoothness;
-
-            // float _WaveLineSpeed;
-            // float _WaveLines;
-
+            
             struct MeshData
             {
                 float4 vertex : POSITION;
@@ -85,10 +82,15 @@ Shader "Playground/Wave"
                 float3 worldPos : TEXCOORD2;
             };
 
+            float SineWave()
+            {
+                // float wave = 
+            }
+
             Interpolators vert (MeshData v)
             {
                 Interpolators o;
-
+                
                 float wave1 = v.vertex.x * _WaveAFrequency + _Time.y * _WaveASpeed;
                 float wave2 = v.vertex.x * _WaveBFrequency - _Time.y * _WaveBSpeed;
                 float wave3 = v.vertex.z * _WaveCFrequency + _Time.y * _WaveCSpeed;
@@ -143,12 +145,6 @@ Shader "Playground/Wave"
 
             float4 frag (Interpolators i) : SV_Target
             {
-                // float xOffset = cos(i.uv.y * TAU * 5) * 0.025;
-
-                // float wave = 1 - sin((i.uv.x + xOffset - _Time.y * _WaveLineSpeed) * TAU * 5) * 0.5 + 0.5;
-
-                // return (_WaveLines == 1) ? wave * _WaveColor : _WaveColor;
-
                 i.normal = normalize(i.normal);
                 float3 lightDir = _WorldSpaceLightPos0.xyz;
                 float3 viewDir = normalize(_WorldSpaceCameraPos - i.worldPos);
