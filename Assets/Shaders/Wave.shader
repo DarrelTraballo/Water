@@ -74,16 +74,28 @@ Shader "Playground/Wave"
                 float3 worldPos : TEXCOORD2;
             };
 
+            float SineWave(float vertex, float frequency, float speed, bool dir)
+            {
+                return vertex * frequency + (dir ? _Time.y : (-1 * _Time.y)) * speed;
+            }
+
             Interpolators vert (MeshData v)
             {
                 Interpolators o;
 
-                float wave1 = v.vertex.x * _WaveAFrequency + _Time.y * _WaveASpeed;
-                float wave2 = v.vertex.x * _WaveBFrequency - _Time.y * _WaveBSpeed;
-                float wave3 = v.vertex.z * _WaveCFrequency + _Time.y * _WaveCSpeed;
-                float wave4 = v.vertex.z * _WaveDFrequency - _Time.y * _WaveDSpeed;
-                float wave5 = v.vertex.x * _WaveAFrequency + v.vertex.z * _WaveCFrequency + _Time.y * _WaveASpeed;
-                float wave6 = v.vertex.z * _WaveDFrequency + v.vertex.x * _WaveBFrequency - _Time.y * _WaveDSpeed;
+                float wave1 = SineWave(v.vertex.x, _WaveAFrequency, _WaveASpeed, true);
+                float wave2 = SineWave(v.vertex.x, _WaveBFrequency, _WaveBSpeed, false);
+                float wave3 = SineWave(v.vertex.z, _WaveCFrequency, _WaveCSpeed, true);
+                float wave4 = SineWave(v.vertex.z, _WaveDFrequency, _WaveDSpeed, false);
+                float wave5 = SineWave(v.vertex.x, _WaveAFrequency, _WaveASpeed, true) + SineWave(v.vertex.z, _WaveCFrequency, _WaveCSpeed, true);
+                float wave6 = SineWave(v.vertex.z, _WaveDFrequency, _WaveDSpeed, false) + SineWave(v.vertex.x, _WaveBFrequency, _WaveBSpeed, false);
+
+                v.vertex.y += _WaveAAmplitude * sin(wave1);
+                v.vertex.y += _WaveBAmplitude * sin(wave2);
+                v.vertex.y += _WaveCAmplitude * sin(wave3);
+                v.vertex.y += _WaveDAmplitude * sin(wave4);
+                v.vertex.y += _WaveAAmplitude * sin(wave5);
+                v.vertex.y += _WaveDAmplitude * sin(wave6);
 
                 float waveLength1 = _WaveASpeed / _WaveAFrequency;
                 float waveLength2 = _WaveBSpeed / _WaveBFrequency;
@@ -96,8 +108,8 @@ Shader "Playground/Wave"
                 float3 tangent2 = normalize(float3(1, waveLength2 * _WaveBAmplitude * cos(wave2), 0));
                 float3 tangent3 = normalize(float3(1, waveLength3 * _WaveCAmplitude * cos(wave3), 0));
                 float3 tangent4 = normalize(float3(1, waveLength4 * _WaveDAmplitude * cos(wave4), 0));
-                float3 tangent5 = normalize(float3(1, waveLength5 * _WaveAAmplitude * cos(wave5), 0));
-                float3 tangent6 = normalize(float3(1, waveLength6 * _WaveDAmplitude * cos(wave6), 0));
+                float3 tangent5 = normalize(float3(1, waveLength5 * _WaveAAmplitude + _WaveCFrequency * cos(wave5), 0));
+                float3 tangent6 = normalize(float3(1, waveLength6 * _WaveDAmplitude + _WaveBFrequency * cos(wave6), 0));
                 
                 float3 normal1 = float3(-tangent1.y, tangent1.x, 0);
                 float3 normal2 = float3(-tangent2.y, tangent2.x, 0);
@@ -106,19 +118,14 @@ Shader "Playground/Wave"
                 float3 normal5 = float3(-tangent5.y, tangent5.x, 0);
                 float3 normal6 = float3(-tangent6.y, tangent6.x, 0);
 
-                v.vertex.y += _WaveAAmplitude * sin(wave1);
-                v.vertex.y += _WaveBAmplitude * sin(wave2);
-                v.vertex.y += _WaveCAmplitude * sin(wave3);
-                v.vertex.y += _WaveDAmplitude * sin(wave4);
-                v.vertex.y += _WaveAAmplitude * sin(wave5);
-                v.vertex.y += _WaveDAmplitude * sin(wave6);
-
                 v.normal += normal1;
                 v.normal += normal2;
                 v.normal += normal3;
                 v.normal += normal4;
                 v.normal += normal5;
                 v.normal += normal6;
+
+                v.normal = normalize(v.normal);
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.normal = normalize(UnityObjectToWorldNormal(v.normal));
