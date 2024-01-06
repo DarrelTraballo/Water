@@ -321,7 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 758548a59644dcb499c0d50402afeb65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dimensions: 250
+  dimensions: 50
   material: {fileID: 2100000, guid: 0fbde29bad4ce4045b6e057e06a9c42c, type: 2}
 --- !u!4 &498239462 stripped
 Transform:
