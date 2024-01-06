@@ -38,22 +38,22 @@ Material:
     - _Frequency: 8.4
     - _Overlay: 0
     - _Prop1: 0
-    - _Scale: 200
+    - _Scale: 1
     - _SmallAmplitude: 0.29
-    - _Smoothness: 50
+    - _Smoothness: 100
     - _VertSpeed: 0.2
-    - _WavCSpeed: 1.53
-    - _WaveAAmplitude: 1.29
-    - _WaveAFrequency: 3.6
-    - _WaveASpeed: 3.65
-    - _WaveBAmplitude: 1.77
-    - _WaveBFrequency: 6.8
-    - _WaveBSpeed: 2.66
-    - _WaveCAmplitude: 2.5
-    - _WaveCFrequency: 14.8
-    - _WaveDAmplitude: 2.5
-    - _WaveDFrequency: 2.7
-    - _WaveDSpeed: 2.8
+    - _WavCSpeed: 0.1
+    - _WaveAAmplitude: 0.54
+    - _WaveAFrequency: 0.252
+    - _WaveASpeed: 0.39
+    - _WaveBAmplitude: 0.69
+    - _WaveBFrequency: 0.197
+    - _WaveBSpeed: 1
+    - _WaveCAmplitude: 0.6
+    - _WaveCFrequency: 0.293
+    - _WaveDAmplitude: 0.35
+    - _WaveDFrequency: 0.233
+    - _WaveDSpeed: 0.35
     - _WaveLineSpeed: 0.05
     - _WaveLines: 1
     - _WaveSpeed: 2.5

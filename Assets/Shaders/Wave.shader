@@ -6,37 +6,33 @@ Shader "Playground/Wave"
         // Wave color from Acerola : 3A4851
         // Directional Light default color : FFF4D6
         [Header(Vertex Shader Properties)][Space]
-        _Scale ("Scale", Range(50, 1000)) = 100
+        _Scale ("Scale", Range(1, 1000)) = 100
 
         [Header(X Axis)][Space][Space]
-        _WaveAAmplitude ("Wave A Amplitude", Range(0.1, 2.5)) = 0.5
-        _WaveAFrequency ("Wave A Frequency", Range(0.1, 20)) = 5
-        _WaveASpeed ("Wave A Speed", Range(0.1, 5.0)) = 0.1
+        _WaveAAmplitude ("Wave A Amplitude", Range(0.1, 1)) = 0.5
+        _WaveAFrequency ("Wave A Frequency", Range(0.1, 0.5)) = 0.5
+        _WaveASpeed ("Wave A Speed", Range(0.1, 1)) = 0.1
 
         [Space][Space]
-        _WaveBAmplitude ("Wave B Amplitude", Range(0.1, 2.5)) = 0.1
-        _WaveBFrequency ("Wave B Frequency", Range(0.1, 20)) = 5
-        _WaveBSpeed ("Wave B Speed", Range(0.1, 5.0)) = 0.1
+        _WaveBAmplitude ("Wave B Amplitude", Range(0.1, 1)) = 0.1
+        _WaveBFrequency ("Wave B Frequency", Range(0.1, 0.5)) = 0.5
+        _WaveBSpeed ("Wave B Speed", Range(0.1, 1)) = 0.1
 
 
         [Header(Z Axis)][Space][Space]
-        _WaveCAmplitude ("Wave C Amplitude", Range(0.1, 2.5)) = 0.2
-        _WaveCFrequency ("Wave C Frequency", Range(0.1, 20)) = 5
-        _WavCSpeed ("Wave C Speed", Range(0.1, 5.0)) = 0.1
+        _WaveCAmplitude ("Wave C Amplitude", Range(0.1, 1)) = 0.2
+        _WaveCFrequency ("Wave C Frequency", Range(0.1, 0.5)) = 0.5
+        _WavCSpeed ("Wave C Speed", Range(0.1, 1)) = 0.1
 
         [Space][Space]
-        _WaveDAmplitude ("Wave D Amplitude", Range(0.1, 2.5)) = 0.2
-        _WaveDFrequency ("Wave D Frequency", Range(0.1, 20)) = 5
-        _WaveDSpeed ("Wave D Speed", Range(0.1, 5.0)) = 0.1
+        _WaveDAmplitude ("Wave D Amplitude", Range(0.1, 1)) = 0.2
+        _WaveDFrequency ("Wave D Frequency", Range(0.1, 0.5)) = 0.5
+        _WaveDSpeed ("Wave D Speed", Range(0.1, 1)) = 0.1
 
         [Header(Fragment Shader Properties)][Space]
         [Header(Lighting)][Space]
         _WaveColor ("Wave Color", Color) = (0.05490194, 0.5294118, 0.8, 1)
         _Smoothness ("Smoothness", Range(10, 100)) = 50
-
-        // [Header(Misc)][Space]
-        // _WaveLineSpeed ("Wave Line Speed", Range(0.01, 0.2)) = 0.1
-        // [Toggle] _WaveLines ("Enable Wave Lines", int) = 1
     }
     SubShader
     {
@@ -82,21 +78,16 @@ Shader "Playground/Wave"
                 float3 worldPos : TEXCOORD2;
             };
 
-            float SineWave()
-            {
-                // float wave = 
-            }
-
             Interpolators vert (MeshData v)
             {
                 Interpolators o;
-                
+
                 float wave1 = v.vertex.x * _WaveAFrequency + _Time.y * _WaveASpeed;
-                float wave2 = v.vertex.x * _WaveBFrequency - _Time.y * _WaveBSpeed;
+                float wave2 = v.vertex.x * _WaveBFrequency + _Time.y * _WaveBSpeed;
                 float wave3 = v.vertex.z * _WaveCFrequency + _Time.y * _WaveCSpeed;
-                float wave4 = v.vertex.z * _WaveDFrequency - _Time.y * _WaveDSpeed;
+                float wave4 = v.vertex.z * _WaveDFrequency + _Time.y * _WaveDSpeed;
                 float wave5 = v.vertex.x * _WaveAFrequency + v.vertex.z * _WaveCFrequency + _Time.y * _WaveASpeed;
-                float wave6 = v.vertex.z * _WaveDFrequency + v.vertex.x * _WaveBFrequency - _Time.y * _WaveDSpeed;
+                float wave6 = v.vertex.z * _WaveDFrequency + v.vertex.x * _WaveBFrequency + _Time.y * _WaveDSpeed;
 
                 float waveLength1 = _WaveASpeed / _WaveAFrequency;
                 float waveLength2 = _WaveBSpeed / _WaveBFrequency;
@@ -126,14 +117,14 @@ Shader "Playground/Wave"
                 v.vertex.y += _WaveAAmplitude * sin(wave5);
                 v.vertex.y += _WaveDAmplitude * sin(wave6);
 
-                v.vertex.xz *= _Scale;
-
                 v.normal += normal1;
                 v.normal += normal2;
                 v.normal += normal3;
                 v.normal += normal4;
                 v.normal += normal5;
                 v.normal += normal6;
+
+                v.vertex.xz *= _Scale;
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.normal = normalize(UnityObjectToWorldNormal(v.normal));
